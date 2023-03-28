@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rrWebservices.RRWebservices.Entity.RetiringroomBookingReservationEntity;
+import com.rrWebservices.RRWebservices.Entity.RetiringroomLocationMaster;
 import com.rrWebservices.RRWebservices.Services.Services;
 
 
@@ -31,13 +32,27 @@ public class MainControler {
 	  	return  "hi web service";
 	  }
 	
+	@GetMapping("/getPnrEnquiry/{data}")
+	public List<RetiringroomBookingReservationEntity> getPnr(@PathVariable String data)
+	{
+		System.out.println(" pnr ::::::"+data);
+		return service.getPnrenquery(data);
+	}
+	
+	
 	@GetMapping("/getPnrEnquiry/{pnr}")
-	public List<RetiringroomBookingReservationEntity> getPnr(@PathVariable String pnr)
+	public List<RetiringroomBookingReservationEntity> getPnr1(@PathVariable String pnr)
 	{
 		System.out.println(" pnr ::::::"+pnr);
 		return service.getPnrenquery(pnr);
 	}
 	
+	@GetMapping("/roomType/{id}")
+	public List<RetiringroomLocationMaster> get(@PathVariable Integer id)
+	{
+		System.out.println(" pnr ::::::"+id);
+		return service.getRoomType(id);
+	}
 	
 
 }
