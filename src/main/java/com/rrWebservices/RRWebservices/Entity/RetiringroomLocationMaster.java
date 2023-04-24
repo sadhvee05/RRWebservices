@@ -9,9 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
-@Data
+
 @Entity
 @Table(name = "retiringroom_location_master")
 public class RetiringroomLocationMaster {
@@ -22,4 +20,18 @@ public class RetiringroomLocationMaster {
 	  private int id;
 	  @Column(name = "hourly_booking_yn")
 	  private String  bookingType;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getBookingType() {
+		return bookingType;
+	}
+	public void setBookingType(String bookingType) {
+		this.bookingType = bookingType;
+	}
+	  
+	  
 }
