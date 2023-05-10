@@ -51,7 +51,7 @@ public class SlotControler {
 		}
 
 
-	 @GetMapping("/AvlRoomList") 
+	 @GetMapping("/AvlRoomList") // no need
 		public ResponseEntity<List<AvailableRoomListWithTariff>> AvlRoomList(@RequestBody SlotRequestDto slotRequestDto)
 		{
 			return ResponseEntity.status(HttpStatus.OK).body(slotServices.avlRoomList(slotRequestDto.getLocationId(),
@@ -75,10 +75,10 @@ public class SlotControler {
  	}
    
    @GetMapping(value="/getTrarrif", produces = "application/json")
-	public ResponseEntity<List<LocationSlotMStDTO>>  getTrarrif
+	public ResponseEntity<List<AvailableRoomListWithTariff>>  getTrarrif
 	(@RequestBody SlotRequestDto slotRequestDto)
 	{
    return ResponseEntity.status(HttpStatus.OK).body(slotServices.getTarrif(slotRequestDto.getLocationId(),
-		   slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime()));
+		   0, slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime()));
 	}
 }

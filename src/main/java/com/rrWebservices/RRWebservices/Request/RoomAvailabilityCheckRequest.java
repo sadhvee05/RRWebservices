@@ -1,20 +1,29 @@
 package com.rrWebservices.RRWebservices.Request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 
-@Getter @Setter @NoArgsConstructor
+@Data
 public class RoomAvailabilityCheckRequest {
-	
+    @NotNull(message = "The Location Id in Not Null  and Integer Type, ")
+   
+    
 	private int stationCode;
+	@NotBlank(message = "CheckInTime is mandatory 'yyyy-MM-dd hh:mm:ss' ex: '2023-01-23 00:00:00' ")
 	private String checkInTime;
+	@NotBlank(message = "CheckInTime is mandatory 'yyyy-MM-dd hh:mm:ss' ex: '2023-01-23 00:00:00' ")
 	private String checkOutTime;
+	@NotBlank(message = "Booking Type Not Blank Ex:'Double or etc'")
 	private String bookingType;
+	@NotBlank(message = "Travel Autho Refrence Ex:'PNR,UTS or etc'")
 	private String travelAutho;
+	@NotBlank(message = "Travel Autho Id  Ex:'1234567848' or '569875")
 	private String travelAuthoId;
 	
 	public int getStationCode() {
+		
 		return stationCode;
 	}
 	public void setStationCode(int stationCode) {

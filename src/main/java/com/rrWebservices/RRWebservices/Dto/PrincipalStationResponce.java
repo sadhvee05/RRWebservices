@@ -12,6 +12,14 @@ public class PrincipalStationResponce {
 	private String stationcode;
 	private int locationid;
 	private String locationcode;
+	
+	private String msg;
+	public String getMsg() {
+		return msg;
+	}
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 	public int getStationid() {
 		return stationid;
 	}

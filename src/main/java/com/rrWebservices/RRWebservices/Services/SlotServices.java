@@ -20,7 +20,7 @@ public interface SlotServices {
 	 //locationId,checkInDateTime,checkOutDateTime
 	 List<LocationSlotMStDTO> getLocationWiseSlotId(int locationId,String checkInDateTime,String checkOutDateTime);
 	 List<RoomAmenitiesDto>  getRommFeaturesOnLocationId(int loctionId);	
-     List<LocationSlotMStDTO> getTarrif(int locationId,String checkInDateTime,String checkOutDateTime);
+     List<AvailableRoomListWithTariff> getTarrif(int locationId,int roomId,String checkInDateTime,String checkOutDateTime);
      	 
 			
 }

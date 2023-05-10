@@ -17,12 +17,12 @@ import com.rrWebservices.RRWebservices.Entity.RetiringroomBookingReservationEnti
 	public List<RetiringroomBookingReservationEntity> findByPnr(String pnr);
 	   
 	@Query(value = "SELECT mst_prncpl_stns.*, mst_stns.STN_CD, retiringroom_location_master.location_code, retiringroom_location_master.id AS location_id\r\n"
-			+ "	   FROM mst_prncpl_stns\r\n"
-			+ "	   JOIN mst_stns ON mst_prncpl_stns.STN_ID = mst_stns.STN_ID\r\n"
-			+ "	   JOIN retiringroom_location_master ON mst_stns.STN_CD = retiringroom_location_master.location_code\r\n"
-			+ "	   WHERE mst_prncpl_stns.AREA_ID = (SELECT AREA_ID FROM mst_prncpl_stns WHERE STN_ID = ?)\r\n"
-			+ "	   ORDER BY mst_prncpl_stns.STN_ID;", nativeQuery = true)
-	   public List<Object> principalStation(int stationId);
+			+ "FROM mst_prncpl_stns\r\n"
+			+ "JOIN mst_stns ON mst_prncpl_stns.STN_ID = mst_stns.STN_ID\r\n"
+			+ "JOIN retiringroom_location_master ON mst_stns.STN_CD = retiringroom_location_master.location_code\r\n"
+			+ "WHERE mst_prncpl_stns.AREA_ID = (SELECT AREA_ID FROM mst_prncpl_stns JOIN mst_stns ON mst_prncpl_stns.STN_ID = mst_stns.STN_ID WHERE mst_stns.STN_CD = ? )\r\n"
+			+ "ORDER BY mst_prncpl_stns.STN_ID;", nativeQuery = true)
+	   public List<Object> principalStation(String stationCd);
 	   
 	  @Query(value = "SELECT `checkin_time`,`checkout_time` FROM `retiringroom_location_slots` WHERE `location_id`= ? ", nativeQuery = true)
 	   public List<Object> getCheckInCheckOut(int locationId);
@@ -73,8 +73,14 @@ import com.rrWebservices.RRWebservices.Entity.RetiringroomBookingReservationEnti
 	   public List<Object> getBookingSearch(String bookingId1,String bookingId2,String bookingId3,String bookingId4);
 
 
-	 @Query(value = "SELECT COUNT(*) FROM   `retiringroom_location_master` WHERE id= ? ", nativeQuery = true)
-	   public int checkLocationId(int locationId);
+	  @Query(value = "SELECT COUNT(*) FROM   `retiringroom_location_master` WHERE id= ? ", nativeQuery = true)
+	  public int checkLocationId(int locationId);
+	  @Query(value = "SELECT r.id\r\n"
+	  		+ "FROM mst_stns m\r\n"
+	  		+ "JOIN retiringroom_location_master r\r\n"
+	  		+ "ON m.STN_CD = r.location_code\r\n"
+	  		+ "WHERE m.STN_ID = ? ", nativeQuery = true)
+	   public List<Object> checkStationId(int stationId);
 	
 	 @Query(value = "SELECT\r\n"
 	 		+ "    CASE\r\n"
@@ -99,8 +105,8 @@ import com.rrWebservices.RRWebservices.Entity.RetiringroomBookingReservationEnti
 	 		+ "    END AS LocationStatus", nativeQuery = true)
 	   public String checkloctionMaintenanceStatus(int locationId,Date CheckInDate ,Date CheckOutDate,int locationId2, Date CheckOutDate1,Date CheckInDate1);
 	// SELECT COUNT(location_id) FROM`retiring_location_maintenance_info` WHERE  location_id=1186 AND `planned_start_date` = "2018-01-23 00:00:00" AND `planned_finish_date` = "2018-01-24 00:00:00"
- 
-	 
+	 @Query(value = "SELECT * FROM   `retiringroom_location_master` WHERE id= ? ", nativeQuery = true)
+	  public int getLocation(int locationid);
 	 
 	   
   }

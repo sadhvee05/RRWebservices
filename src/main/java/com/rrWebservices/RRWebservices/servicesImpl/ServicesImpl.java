@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.rrWebservices.RRWebservices.Constant.RrConstEnum;
 import com.rrWebservices.RRWebservices.Dto.CheckInCheckOutTimeResponse;
+import com.rrWebservices.RRWebservices.Dto.ErrorMsg;
 import com.rrWebservices.RRWebservices.Dto.GuestInfoDto;
 import com.rrWebservices.RRWebservices.Dto.PnrResponce;
 import com.rrWebservices.RRWebservices.Dto.PnrResponse;
@@ -50,7 +51,8 @@ public class ServicesImpl implements Services {
 	 private RetiringroomBookingReservationRepo rrBookingReservationRepo;
 	@Autowired 
 	 private RetiringroomLocationMasterRepo rrLocationMasterRepo;
-	 
+	@Autowired 
+	 ErrorMsg errorMsg;
 	ResponseMsgDto dtoResponsemsg=new ResponseMsgDto();
 	
 	@Override 
@@ -73,7 +75,21 @@ public class ServicesImpl implements Services {
 		return list;
 		}
 	
-	
+	public String getSationExistOrNot(int locationId)
+	 {
+	    List<CheckInCheckOutTimeResponse> list=new  ArrayList<CheckInCheckOutTimeResponse>();
+	    String msg="";
+	   
+		int location =rrBookingReservationRepo.getLocation(locationId);
+		if(location==locationId)
+		{
+			msg="LocationExist";
+		}else {
+			msg="Please Enter valid Location Id";
+		}
+		return msg;
+		 
+	 }
 	
 	
 	
@@ -81,12 +97,12 @@ public class ServicesImpl implements Services {
 	
 
 	@Override 
-	 public List<PrincipalStationResponce> getprincipalStation(int stationId)
+	 public List<PrincipalStationResponce> getprincipalStation(String stationCD)
 	 {
 		
 	    List<PrincipalStationResponce> list=new  ArrayList<PrincipalStationResponce>();
-	    List<Object> objetList= rrBookingReservationRepo.principalStation(stationId);
-		System.out.println(list.size());
+	    List<Object> objetList= rrBookingReservationRepo.principalStation(stationCD);
+		System.out.println(list.size() );
 		 for (Object itr : objetList) {
 			 Object[] obj = (Object[]) itr;
 			 PrincipalStationResponce dto=new PrincipalStationResponce();
@@ -98,10 +114,11 @@ public class ServicesImpl implements Services {
 				 dto.setLocationid(Integer.valueOf(String.valueOf(obj[4])));
 				}
 			    else {
-			   	// dto.setMsg("Data Not Found");
+			    	dto.setMsg("Data Not Found on "+stationCD);//.setMsg("Data Not Found");
 			    }
 			 list.add(dto);
 		 }
+		
 		return list;
 		 
 	 }
@@ -158,6 +175,9 @@ public class ServicesImpl implements Services {
 					guestInfo.setStatus(passengerDetailDTO.getCurrentStatus());
 					guestInfo.setPassengerCardType(passengerDetailDTO.getPassengerCardType());
 					guestInfo.setPassengerCardNumber(passengerDetailDTO.getPassengerCardNumber());
+					guestInfo.setPassengerCardNumber(passengerDetailDTO.getCurrentStatus());
+					
+					//System.out.println(" passengerDetailDTO.getCurrentStatus() ---"+passengerDetailDTO.getCurrentStatus());
 					
 					guestsInfo.add(guestInfo);
 				}
@@ -170,7 +190,13 @@ public class ServicesImpl implements Services {
 				pnrResponse.setDestinationStation(response.getReservationUpto());
 				pnrResponse.setDateOfJourney(new java.sql.Timestamp(response.getDateOfJourney().getTime()).toLocalDateTime());
 				pnrResponse.setArrivalDate(new java.sql.Timestamp(response.getArrivalDate().getTime()).toLocalDateTime());
-				
+				pnrResponse.setHourlyOrSlot("0");
+				System.out.println(response.getBoardingPoint()+" -----------");
+				int SourceStationcode =rrLocationMasterRepo.getStationId(response.getBoardingPoint());
+				int DestinationStation =rrLocationMasterRepo.getStationId(response.getReservationUpto());
+				pnrResponse.setSourceStationCode(SourceStationcode);
+				pnrResponse.setDestinationStationCode(DestinationStation);
+				System.out.println("SourceStationcode----"+SourceStationcode+"  "+DestinationStation);
 				}
 		   else{
 			   throw new ResourceNotFoundCustomException("PNR enquiry", "PNR", pnrNo,"PNR Error: "+response.getErrorMessage() );
