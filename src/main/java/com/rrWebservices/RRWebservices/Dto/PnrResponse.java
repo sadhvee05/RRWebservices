@@ -9,6 +9,8 @@ import com.rrWebservices.RRWebservices.Constant.RrConstEnum;
 import io.swagger.annotations.ApiModelProperty;
 
 public class PnrResponse {
+	
+	 
 	String sourceStation;
 	int   sourceStationCode;
     String destinationStation;

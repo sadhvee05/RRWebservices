@@ -3,13 +3,7 @@ package com.rrWebservices.RRWebservices.Dto;
 import java.util.List;
 
 public class RoomAVLCheckList {
-	public String getMsg() {
-		return msg;
-	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
 
 	private String msg;
 	private List<RoomAVList> roomAVList;
@@ -22,5 +16,11 @@ public class RoomAVLCheckList {
 		this.roomAVList = roomAVList;
 	}
 	
-	
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 }

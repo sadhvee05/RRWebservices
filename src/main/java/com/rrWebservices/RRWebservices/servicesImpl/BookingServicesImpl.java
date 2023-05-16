@@ -16,6 +16,7 @@ import com.rrWebservices.RRWebservices.Dto.RoomAVLCheckList;
 import com.rrWebservices.RRWebservices.Dto.RoomAVList;
 import com.rrWebservices.RRWebservices.Exception.ResourceNotFoundCustomException;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomBookingReservationRepo;
+import com.rrWebservices.RRWebservices.Repository.RetiringroomLocationMasterRepo;
 import com.rrWebservices.RRWebservices.Request.RoomAvailabilityCheckRequest;
 import com.rrWebservices.RRWebservices.Response.BookingSearchResponse;
 import com.rrWebservices.RRWebservices.Services.BookingServices;
@@ -32,14 +33,17 @@ public class BookingServicesImpl implements BookingServices {
 	private ServicesImpl servicesImpl;
 	@Autowired 
 	private SlotServicesImpl slotServicesImpl;
-	 
+	 @Autowired 
+	 private RetiringroomLocationMasterRepo rrLocationMasterRepo;
+
 	ResponseMsgDto dtoResponsemsg = new ResponseMsgDto();
 
 	@Override
 	public List<BookingSearchResponse> getBookingSearch(String bookingId) {
+		
 		List<BookingSearchResponse> list = new ArrayList<BookingSearchResponse>();
 		List<Object> objetList = rbrRepo.getBookingSearch(bookingId, bookingId, bookingId, bookingId);
-	
+	try {
 
 		if (!objetList.isEmpty() && objetList.size() > 0) {
 			for (Object itr : objetList) {
@@ -102,21 +106,25 @@ public class BookingServicesImpl implements BookingServices {
 			// throw new ResourceNotFoundCustomException("Not Found data on "+bookingId);
 
 		}
-
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+		BookingSearchResponse dto = new BookingSearchResponse();
+		dto.setErrorMsg("Please Check Booking Id: "+bookingId);
+		list.add(dto);
+	}
 		return list;
 	}
 	
 	// List<RoomAVList>
-	public  List<RoomAVLCheckList> getRoomAvailabilityCheck( int stationCode, String checkInTime,String checkOutTime,String bookingType,String travelAuthref,String travelAuthoId) {
-		 
-		List<ResponseEntity<?>> responselist=new ArrayList<ResponseEntity<?>>();
-		RoomAVLCheckList dto1=new RoomAVLCheckList();
-		 RoomAVLCheckList dto=new RoomAVLCheckList();
+	public  RoomAVLCheckList getRoomAvailabilityCheck(int stationCode, String checkInTime,String checkOutTime,String bookingType,String travelAuthref,String travelAuthoId) {
+		   RoomAVLCheckList dto=new RoomAVLCheckList();
 		   List<RoomAVLCheckList> list=new ArrayList<RoomAVLCheckList>();
 		   String msg="";
 		try {
 
-          // String chechkStationCode=validation.onlyNumericValue(String.valueOf(stationCode)) ;
+            // String chechkStationCode=validation.onlyNumericValue(String.valueOf(stationCode)) ;
 			// String st2=validation.loctionUnderMaintenanceORNot(LocationId, checkInTime, checkOutTime);
 		
 		  List<Object> StationId =rbrRepo.checkStationId(stationCode);// statincode convert into locationId
@@ -135,11 +143,11 @@ public class BookingServicesImpl implements BookingServices {
 			 String st1=validation.loctionExistInRetiringRoom(LocationId); 
 			 if(st1=="RetiringRoomExist")
            {
-        	 System.out.println(travelAuthref+" ::");
-        		if(travelAuthref.equals("pnr"))
+				if(travelAuthref.equals("pnr"))
         		{
         			 String travelAuthoId1=validation.onlyNumericValue(travelAuthoId);
         			 String  st4= validation.advanceBooking(travelAuthoId1);
+        			
         			if(st4.equals("advance booking only with PNR")) {
         				String pnrValidation=validation.pnrValidation(travelAuthoId,checkInTime,checkOutTime);
         				if(pnrValidation.equals("valid"))
@@ -207,12 +215,9 @@ public class BookingServicesImpl implements BookingServices {
 		{
 			e.printStackTrace();
 			dto.setMsg("Location Not Found, Please enter valid Station");
-			  list.add(dto);
+			  //list.add(dto);
 		}
-          
-		
-          
-		return list;
+        return dto;
 		
 	}
 

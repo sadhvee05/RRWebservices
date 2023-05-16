@@ -21,6 +21,7 @@ import com.rrWebservices.RRWebservices.Dto.SlotList;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomSlotTarrifsRepo;
 import com.rrWebservices.RRWebservices.Response.RoomAvailabilityListResponse;
 import com.rrWebservices.RRWebservices.Services.SlotServices;
+import com.rrWebservices.RRWebservices.Validation.RoomAvailabilityValidation;
 @Service
 public class SlotServicesImpl  implements SlotServices  {
 	 DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -28,6 +29,8 @@ public class SlotServicesImpl  implements SlotServices  {
 	 SimpleDateFormat obj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Autowired 
 	 private RetiringroomSlotTarrifsRepo slotTarrifsRepo;
+	@Autowired 
+	private RoomAvailabilityValidation validations;
 	
 	 public List<SlotList> getAllslot() {
 		 List<SlotList> list=new ArrayList<SlotList>();
@@ -116,7 +119,7 @@ public class SlotServicesImpl  implements SlotServices  {
 		 
 		  LocalDateTime  checkIndate = LocalDateTime.parse(checkingDate, DATEFORMATTER);		 
 		  LocalDateTime  checkOutDate = LocalDateTime.parse(checkoutDate, DATEFORMATTER);
-		 
+		  
 		 List<RoomAVList> list=new ArrayList<RoomAVList>();
 		// List<Object> objlist1= slotTarrifsRepo.getAvaRoomList(checkIndate,checkOutDate,checkIndate,checkOutDate,locationId);
 		 
@@ -145,10 +148,16 @@ public class SlotServicesImpl  implements SlotServices  {
                     	dto.setBasetarrif(data.getBaseTarrif());
                     	dto.setTotaltarrif(data.getTotalTarrif());
                     	dto.setExtrabedcharge(data.getExtraBedCharge());
-                    	dto.setCheckinTime(data.getCheckinTime());
-                    	dto.setCheckoutTime(data.getCheckOutTime());
+                    	dto.setCheckingSlot(data.getCheckinTime());
+                    	dto.setCheckinTime(checkInDateTime);
+                    	dto.setCheckoutSlot(data.getCheckOutTime());
+                    	dto.setCheckoutTime(checkOutDateTime);
+                    	dto.setDuration(validations.checkingAndCheckoutTimeduration(checkInDateTime,checkOutDateTime));
+                    	//dto.setCheckinTime1(checkInDateTime);
                     	dto.setMsg(data.getMsg());
                     }
+                    
+                    
                        //dto.setTarrifDetails(getTarrif( locationId,roomId,checkInDateTime, checkOutDateTime));
                     
            }   list.add(dto);

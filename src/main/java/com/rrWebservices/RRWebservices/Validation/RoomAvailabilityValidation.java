@@ -5,14 +5,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rrWebservices.RRWebservices.Dto.PnrResponse;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomBookingReservationRepo;
-import com.rrWebservices.RRWebservices.Response.BookingSearchResponse;
 import com.rrWebservices.RRWebservices.servicesImpl.ServicesImpl;
 @Service
 public class RoomAvailabilityValidation {
@@ -27,18 +25,14 @@ public class RoomAvailabilityValidation {
 	 public String onlyNumericValue( String NumericValue) {
 		    String msg="";
 		    String str = NumericValue.replaceAll("[^0-9]", " "); 
-			//str.replaceAll("\\s", "");
 		try {
 			if(str.length()>=10 || str.length()<=18)
 		{
-			System.out.println( "--------------"+str.length());
-			System.out.println( "-----str---------"+str);
-			msg="valid";
+			msg=str;
 		}
 		else
 		{
 			msg="Please Enter Only Numeric Value and not more than 18 digit: "+NumericValue;
-			System.out.println( "Please Enter Only Numeric Value and not more than 18 digit: "+NumericValue);
 		}
 		}catch(Exception e){
 			msg ="Please Enter Only Numeric Value: "+NumericValue;
@@ -48,10 +42,9 @@ public class RoomAvailabilityValidation {
 	
 	 public String pnrValidation(String pnr,String checkInTime,String checkOutTime )
 	 {
-		 
-	    String msg="";
+		String msg="";
 	    String strnull=null;
-		PnrResponse objetList =  servicesImpl.getPnrenquery1(pnr);
+	    PnrResponse objetList =  servicesImpl.getPnrenquery1(pnr);
 		String str = pnr.replaceAll("[^0-9]", " ");  
 		try {	
 		if(str.length()>=10 || str.length()<=18) //1condition:pnr only numeric and 10 ,or 18 or 10to 18 digit.
@@ -72,80 +65,60 @@ public class RoomAvailabilityValidation {
 				 LocalDateTime checkInTime1 = LocalDateTime.parse(checkInTime, DATEFORMATTER);
 				 LocalDateTime checkOutTime1 = LocalDateTime.parse(checkOutTime, DATEFORMATTER);
 				// LocalDateTime  dateofJourneyplus2days =dateofJourney.plusDays(2);
-			//	 LocalDateTime  dateofJourneyminus2days =dateofJourney.minusDays(2);
+			   //	 LocalDateTime  dateofJourneyminus2days =dateofJourney.minusDays(2);
 				
-				 System.out.println("-------------------------------------------");
 				if(checkInTime1.compareTo(dateofJourney.minusDays(2))>=0 &&  checkOutTime1.compareTo(dateofJourney)<=0 )
 				{
-					System.out.println("checkInTime1"+checkInTime1);
-					System.out.println("checkOutTime1"+checkInTime1);
-					System.out.println("dateofJourney : "+dateofJourney);
-					System.out.println("dateofJourney minusDays 2days : "+dateofJourney.minusDays(2));
-					System.out.println("   ");
 					msg="valid";
 				}
 				else if(checkInTime1.compareTo(arrivaledate)>=0 &&   checkOutTime1.compareTo(arrivaledate.plusDays(2))<=0 )
-				{   System.out.println("arrivaledate : "+arrivaledate);
-					System.out.println("arrivaledate plus 2days : "+arrivaledate.plusDays(2));
-					System.out.println("checkInTime1 :::"+checkInTime1);
-					System.out.println("checkOutTime1 ::::::::::"+checkInTime1);
-					msg="valid";
+				{  msg="valid";
 				}
 				else 
 				{msg="Reservation To Date should be future to Reservation From Date. Not Possible to book room.2";
 				}
-				 System.out.println("-------------------------------------------");
 				//   LocalDateTime  CurrentDate = LocalDateTime.parse(today, DATEFORMATTER);
 			}
 			else
-			{   System.out.println("        7          ");
-				msg="PNR is wait List. Not Possible to book room.";
+			{  msg="PNR is wait List. Not Possible to book room.";
 			}
 		}
 		else
-		{System.out.println("      8           ");
+		{
 		 msg=objetList.getTrainCancelStatus();	
 		 
 		}
 		}
 		else
-		{   System.out.println("      9          ");
-			//trainCancelStatus
-			System.out.println( "Please Enter Only Numeric Value and not more than 18 digit: "+pnr);
+		{   
+		  msg="Please Enter Only Numeric Value and not more than 18 digit: "+pnr;
+			
 		}
 		}
 		catch(Exception e)
-		{  e.printStackTrace();
-			msg="Please, Enter Valid PNR Number"+e.getMessage();
+		{   e.printStackTrace();
+			msg="Please, Enter Valid PNR Number "+e.getMessage();
 		}
 		return msg;
 	 }
 	 
 	 public String loctionExistInRetiringRoom(int locationId){
-	
-		    String s="";
-		try {
+		 String s="";
+		 try {
 			 int locationExistOrNot=rbrRepo.checkLocationId(locationId);
-			
-			
-			if(locationExistOrNot>=1) {
+			 if(locationExistOrNot>=1) {
 				s="RetiringRoomExist";
 				}
-			else
-			{
-				s="Retiringroom is not exist On loction";
-			}
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 			s="Retiringroom is not exist On this Station";
 		}
 			return s;
-		 
-	 }
+	}
 	 
-	// checkInTime="2023-01-23 00:00:00";
-	  // checkOutTime="2023-01-25 00:00:00";
+	
+	    // checkInTime="2023-01-23 00:00:00"; // checkOutTime="2023-01-25 00:00:00";
 	   public String checkCheckingTimeAndCheckoutTime(String  checkInTime, String checkOutTime ){
 			
 		   String s="";
@@ -155,20 +128,17 @@ public class RoomAvailabilityValidation {
 		   LocalDateTime  checkIndate = LocalDateTime.parse(checkInTime, DATEFORMATTER);
 		   
 		   LocalDateTime  checkOutdate = LocalDateTime.parse(checkOutTime, DATEFORMATTER);
-			System.out.println(CurrentDate +":::::::::::"+checkIndate);
-			 if(CurrentDate.compareTo(checkIndate)== 0 || CurrentDate.compareTo(checkIndate)<0 ) {
+			if(CurrentDate.compareTo(checkIndate)== 0 || CurrentDate.compareTo(checkIndate)<0 ) {
 		       
 		         if(CurrentDate.compareTo(checkOutdate)<0 && checkIndate.compareTo(checkOutdate)<0)
 		         {
                     s="valid";
                  }
 		         else {
-		        	 System.out.println("Please check checkOut DateTime,Check Out Date can't Be prior to Check In Date");
-		        	 s="Please check checkOut DateTime,Check Out Date can't Be prior to Check In Date and Current DateTime";
+		        	  s="Please check checkOut DateTime,Check Out Date can't Be prior to Check In Date and Current DateTime";
 		         }
 		      } else {
 		    	  s="Please check CheckIn DateTime, Not booking back DateTime";
-		      System.out.println("Please check CheckIndateTime, Not booking back DateTime" );
 		      }
 		   }catch(Exception e)
 		   {
@@ -201,7 +171,7 @@ public class RoomAvailabilityValidation {
 			}
 			 String loctionUnderMaintenanceORNot=rbrRepo.checkloctionMaintenanceStatus(locationId, date1, date2,locationId,date2,date1);
 			 s2=loctionUnderMaintenanceORNot;
-			 System.out.println("s2 uuuuuuuuuuuuuuuuu"+s2);
+			
 			}catch(Exception e){
 				e.printStackTrace();
 				s2="Not Found data, loction is UnderMaintenance OR Not ";
@@ -241,33 +211,54 @@ public class RoomAvailabilityValidation {
 		return s3;
 		 
 	 }
-	
 	 
-	 public String advanceBooking(String pnr)
+
+	 public String  checkingAndCheckoutTimeduration(String checkInDate, String checkOutDate)
 	 {
-		 String s4="";
-		 try {
-		 if(pnr.length()==10)
-		 {
-			s4="advance booking only with PNR"; 
-		 }
-		 else if(pnr.length()>10 || pnr.length()<10 )
-		 {
-			 System.out.println(pnr.length()+ "----   pnr.length()");
-			 s4=" Wrong PNR , Please Check "; 
-		 }
-		 
-		 else {
-			 s4=" If Not PNR Advance Booking Not Possible";
-		 }
-		 }catch(Exception e)
-		 {
-			 e.printStackTrace();
-			 s4="Advance Booking Not Possible , Excluding PNR USER!";
-		 }
-		return s4;
+
+			 String s3="";
+		try {
+			Date date1 = obj.parse(checkInDate);
+			 Date date2=obj.parse(checkOutDate);
+			 long time_difference = date2.getTime() - date1.getTime();
+			 long hours_difference = time_difference / (60 * 60 * 1000);     
+			 s3= String.valueOf(hours_difference); 
+			  
+		} catch (ParseException e) {
+			e.printStackTrace();
+			s3="Plaese Enter Valid DateTime";
+		}
+		return s3;
 		 
 	 }
+	
+	 
+		public String advanceBooking(String pnr) {
+			String s4 = "";
+			try {
+				if (pnr.length() == 10) {
+					s4 = "advance booking only with PNR";
+				} else if (pnr.length() > 10 || pnr.length() < 10) {
+					s4 = " Wrong PNR , Please Check ";
+				} else {
+					s4 = " If Not PNR Advance Booking Not Possible";
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				s4 = "Advance Booking Not Possible , Excluding PNR USER!";
+			}
+			return s4;
+
+		}
+		
+		public String bedroomAvailability()
+		{
+			return null;
+			
+			
+		}
+		
+		
 	
 	
 

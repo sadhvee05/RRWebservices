@@ -25,7 +25,7 @@ import com.rrWebservices.RRWebservices.Services.SlotServices;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController 
-@RequestMapping("/rr/")
+@RequestMapping("/rr/Webservices/")
 public class SlotControler {
 
 	 @Autowired

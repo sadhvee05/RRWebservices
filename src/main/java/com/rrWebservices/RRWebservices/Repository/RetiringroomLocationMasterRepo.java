@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.rrWebservices.RRWebservices.Dto.StationNameResponse;
 import com.rrWebservices.RRWebservices.Entity.RetiringroomLocationMaster;
 @Repository 
 public interface RetiringroomLocationMasterRepo extends JpaRepository<RetiringroomLocationMaster,Integer>{
@@ -13,6 +14,10 @@ public interface RetiringroomLocationMasterRepo extends JpaRepository<Retiringro
 	
 	@Query(value = "SELECT STN_ID FROM `mst_stns` WHERE STN_CD = ? ", nativeQuery = true)
 	public int getStationId(String  stncode);
+	
+	@Query(value = "SELECT id,location_code,description, CONCAT(description,' (',location_code,')') AS 'stationname' FROM retiringroom_location_master ", nativeQuery = true)
+	public List<Object> getStationName();
+
 	
 	
 

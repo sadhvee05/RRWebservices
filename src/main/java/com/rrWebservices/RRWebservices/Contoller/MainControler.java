@@ -19,6 +19,7 @@ import com.rrWebservices.RRWebservices.Dto.PnrResponce;
 import com.rrWebservices.RRWebservices.Dto.PnrResponse;
 import com.rrWebservices.RRWebservices.Dto.PrincipalStationResponce;
 import com.rrWebservices.RRWebservices.Dto.RoomTypeResponse;
+import com.rrWebservices.RRWebservices.Services.LocationServices;
 import com.rrWebservices.RRWebservices.Services.Services;
 
 import cris.prs.rail.dto.PnrEnquiryResponseDTO;
@@ -34,6 +35,8 @@ public class MainControler {
 	 private  Services service;	
 	 @Autowired
 	 private ErrorMsg errorMsg;
+	 @Autowired
+	  private LocationServices  locationServices;
 	 @GetMapping("/hellow")
      public String msg(){
 	  	return  "hi web service";
@@ -45,6 +48,8 @@ public class MainControler {
 	{
 		return ResponseEntity.status(HttpStatus.OK).body(service.getStaionModeHourlyOrSlot(staionId));
 	}
+	
+	
 	
     @GetMapping(value="/getPrincipalStation/{stationCd}", produces = "application/json")
 	public ResponseEntity<?>  getprincipalStation(@PathVariable String stationCd)

@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "retiringroom_booking_reservation")
+@Table(name = "retiringroom_booking_reservation", schema = "cris")
 
 
 public class RetiringroomBookingReservationEntity {

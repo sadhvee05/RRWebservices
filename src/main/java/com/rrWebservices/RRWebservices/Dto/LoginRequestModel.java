@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class LoginRequestModel {
     private String username;
-    private String roleId;
-    private LocalDateTime createdOn;
+    private Long roleId;
+    private String createdOn;
     private String token;
     boolean isError;
     
@@ -20,19 +20,19 @@ public class LoginRequestModel {
 		this.username = username;
 	}
 
-	public String getRoleId() {
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(String roleId) {
+	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 
-	public LocalDateTime getCreatedOn() {
+	public String getCreatedOn() {
 		return createdOn;
 	}
 
-	public void setCreatedOn(LocalDateTime createdOn) {
+	public void setCreatedOn(String createdOn) {
 		this.createdOn = createdOn;
 	}
 

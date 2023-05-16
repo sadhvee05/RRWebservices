@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "retiringroom_location_master")
+@Table(name = "retiringroom_location_master" , schema = "cris")
 public class RetiringroomLocationMaster {
 	
 	 @Id
