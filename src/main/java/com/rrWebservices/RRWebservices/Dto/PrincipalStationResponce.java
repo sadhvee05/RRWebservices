@@ -50,5 +50,13 @@ public class PrincipalStationResponce {
 	public void setLocationcode(String locationcode) {
 		this.locationcode = locationcode;
 	}
+	public PrincipalStationResponce(int stationid, String stationcode) {
+		super();
+		this.stationid = stationid;
+		this.stationcode = stationcode;
+	}
+	public PrincipalStationResponce() {
+		// TODO Auto-generated constructor stub
+	}
 	
 }

@@ -25,7 +25,7 @@ import com.rrWebservices.RRWebservices.Services.SlotServices;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController 
-@RequestMapping("/rr/Webservices/")
+@RequestMapping("/rr/Webservices")
 public class SlotControler {
 
 	 @Autowired
@@ -47,16 +47,20 @@ public class SlotControler {
 		public ResponseEntity<List<RoomAVList> > getavailableroomInRRTXn(@RequestBody SlotRequestDto slotRequestDto)
 		{
 			return ResponseEntity.status(HttpStatus.OK).body(slotServices.
-					getavailableroomList(slotRequestDto.getLocationId(), slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime()));
+					getavailableroomList(slotRequestDto.getLocationId(), slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime(),
+							slotRequestDto.getQuota(),slotRequestDto.getAcstatus(),slotRequestDto.getBedtype()
+							));
 		}
 
 
-	 @GetMapping("/AvlRoomList") // no need
-		public ResponseEntity<List<AvailableRoomListWithTariff>> AvlRoomList(@RequestBody SlotRequestDto slotRequestDto)
-		{
-			return ResponseEntity.status(HttpStatus.OK).body(slotServices.avlRoomList(slotRequestDto.getLocationId(),
-					   slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime()));
-		}
+		/*
+		 * @GetMapping("/AvlRoomList") // no need public
+		 * ResponseEntity<List<AvailableRoomListWithTariff>> AvlRoomList(@RequestBody
+		 * SlotRequestDto slotRequestDto) { return
+		 * ResponseEntity.status(HttpStatus.OK).body(slotServices.avlRoomList(
+		 * slotRequestDto.getLocationId(),
+		 * slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime())); }
+		 */
 
 	    
    @GetMapping(value="/getLocationWiseSlotId", produces = "application/json")

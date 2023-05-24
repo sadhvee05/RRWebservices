@@ -176,9 +176,6 @@ public class ServicesImpl implements Services {
 					guestInfo.setPassengerCardType(passengerDetailDTO.getPassengerCardType());
 					guestInfo.setPassengerCardNumber(passengerDetailDTO.getPassengerCardNumber());
 					guestInfo.setPassengerCardNumber(passengerDetailDTO.getCurrentStatus());
-					
-					//System.out.println(" passengerDetailDTO.getCurrentStatus() ---"+passengerDetailDTO.getCurrentStatus());
-					
 					guestsInfo.add(guestInfo);
 				}
 				pnrResponse.setGuestsInfo(guestsInfo);
@@ -187,16 +184,46 @@ public class ServicesImpl implements Services {
 				pnrResponse.setTrainCancelStatus(response.getTrainCancelStatus());//If train is cancelled, then this field will have mesage 'The Train Is Cancelled'. If there is no message in this field, that means train is Active.
 				pnrResponse.setNoOfPassengers(response.getPassengerList().size());
 				pnrResponse.setSourceStation(response.getBoardingPoint());
-				pnrResponse.setDestinationStation(response.getReservationUpto());
+			    pnrResponse.setDestinationStation(response.getReservationUpto());
+			    
+				List<PrincipalStationResponce> sourcelist=getprincipalStation(pnrResponse.getSourceStation());
+				PrincipalStationResponce dto = new PrincipalStationResponce();
+				List<PrincipalStationResponce> list1=new ArrayList<PrincipalStationResponce>();
+				if(sourcelist.isEmpty())
+				{	
+					dto.setStationcode(pnrResponse.getSourceStation());
+					dto.setStationid(rrLocationMasterRepo.getStationId(pnrResponse.getSourceStation()));
+				    list1.add(dto);
+				    pnrResponse.setSourceStationlist( list1);
+				}else
+				{
+					pnrResponse.setSourceStationlist( getprincipalStation(pnrResponse.getSourceStation()));
+				}
+				
+				List<PrincipalStationResponce> destlist=getprincipalStation(pnrResponse.getDestinationStation());
+				PrincipalStationResponce dto1= new PrincipalStationResponce();
+				List<PrincipalStationResponce> list2=new ArrayList<PrincipalStationResponce>();
+				
+				if(destlist.isEmpty())
+				{
+					dto1.setStationcode(pnrResponse.getDestinationStation());
+					dto1.setStationid(rrLocationMasterRepo.getStationId(pnrResponse.getDestinationStation()));
+					list2.add(dto1);
+				    pnrResponse.setDestinationStationlList(list2);
+	          }else
+				{
+					
+					pnrResponse.setDestinationStationlList( getprincipalStation(pnrResponse.getDestinationStation()));
+				
+				}
+				
 				pnrResponse.setDateOfJourney(new java.sql.Timestamp(response.getDateOfJourney().getTime()).toLocalDateTime());
 				pnrResponse.setArrivalDate(new java.sql.Timestamp(response.getArrivalDate().getTime()).toLocalDateTime());
 				pnrResponse.setHourlyOrSlot("0");
-				System.out.println(response.getBoardingPoint()+" -----------");
 				int SourceStationcode =rrLocationMasterRepo.getStationId(response.getBoardingPoint());
 				int DestinationStation =rrLocationMasterRepo.getStationId(response.getReservationUpto());
 				pnrResponse.setSourceStationCode(SourceStationcode);
 				pnrResponse.setDestinationStationCode(DestinationStation);
-				System.out.println("SourceStationcode----"+SourceStationcode+"  "+DestinationStation);
 				}
 		   else{
 			   throw new ResourceNotFoundCustomException("PNR enquiry", "PNR", pnrNo,"PNR Error: "+response.getErrorMessage() );

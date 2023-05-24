@@ -118,14 +118,18 @@ public class LoginController {
 		try {
 			mstaccounts = mstAccountsRepository.findByUsername(username).orElseThrow(EntityNotFoundException::new);
 		} catch (EntityNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+			ErrorMsg errorMsg = new ErrorMsg();
+			errorMsg.setMsg("Please Enter valid credentials");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMsg);
 		}
 		
 		MstAccountValidate mstAccountValidate = new MstAccountValidate();
 		try {
 			mstAccountValidate = mstAccntsValidateRepository.findById(mstaccounts.getAccntId()).orElse(null);
 		} catch (EntityNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+			ErrorMsg errorMsg = new ErrorMsg();
+			errorMsg.setMsg("Please, Enter valid credentials");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMsg);
 		}
 		
 		System.out.println("mstaccount validate " + mstAccountValidate);
@@ -142,7 +146,7 @@ public class LoginController {
     	        
     			if (!comparePasswords(password, mstaccounts.getPassword())) {
     				loginRequestModel.setError(true);	
-    				String msg = "Wrong Password";
+    				String msg = "Please Enter valid credentials";
     				errorMsg.setMsg(msg);
     			 return new ResponseEntity<>(
     					 errorMsg, 
@@ -150,7 +154,12 @@ public class LoginController {
     			}
     			else
     			{
+    				
     		        String ipAdd = rqst.getHeader("X-Forwarded-For");
+    		        if(ipAdd==null || ipAdd.equals(null))
+    		        {
+    		        	ipAdd="172.16.14.79";
+    		        }
     		        String[] ipAddresses = ipAdd.split(",");
     		        String ipAddress = ipAddresses[0].trim();
     		        
@@ -159,7 +168,9 @@ public class LoginController {
     				try {
     				displayMaster = displayMasterRepository.findByterminalLineId("ndls9");
     				}catch (EntityNotFoundException e) { 
-    					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+    					String msg ="You are Not Authorized to Login from this Location";
+						errorMsg.setMsg(msg);
+    					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMsg);
     				}
     		       System.out.println("ipadress " + ipAddress);
     		       System.out.println("ipadress db " + displayMaster.getTerminalIp());

@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController 
-@RequestMapping("/rr/Webservices/")
+@RequestMapping("/rr/Webservices")
 public class MainControler {
 
 	 @Autowired

@@ -118,7 +118,8 @@ public class BookingServicesImpl implements BookingServices {
 	}
 	
 	// List<RoomAVList>
-	public  RoomAVLCheckList getRoomAvailabilityCheck(int stationCode, String checkInTime,String checkOutTime,String bookingType,String travelAuthref,String travelAuthoId) {
+	public  RoomAVLCheckList getRoomAvailabilityCheck(int stationCode, String checkInTime,String checkOutTime,String bookingType,String travelAuthref,String travelAuthoId,
+			String acStatus, String bedType, String quota) {
 		   RoomAVLCheckList dto=new RoomAVLCheckList();
 		   List<RoomAVLCheckList> list=new ArrayList<RoomAVLCheckList>();
 		   String msg="";
@@ -154,8 +155,12 @@ public class BookingServicesImpl implements BookingServices {
         				{
         				 msg="Welcome with pnr";
         				 dto.setMsg(msg);
-        				 List<RoomAVList> list1=	slotServicesImpl.getavailableroomList(LocationId, checkInTime, checkOutTime).stream().collect(Collectors.toList());
-        				 dto.setRoomAVList(list1);
+        				 List<RoomAVList> list1=slotServicesImpl.getavailableroomList(LocationId, checkInTime, checkOutTime,quota,acStatus,bedType).stream().collect(Collectors.toList());
+        				 
+        				if( list1.size()==0)
+        				dto.setMsg("Room Not Availble");
+        				else
+        				dto.setRoomAVList(list1);
         				}
         				else {
         					msg=pnrValidation;
@@ -169,11 +174,14 @@ public class BookingServicesImpl implements BookingServices {
         			 String st3=validation.loctionNotBookedMoreThan48Hr(checkInTime, checkOutTime);
         			/*if(travelAuthoId.equals("569875") || travelAuthoId=null || !travelAuthoId.equals("")){*/
         			 if(st3=="booking allowed") {
-        				msg="welcome with other Travel Autho";
+        				 msg="welcome with other Travel Autho";
         				 dto.setMsg(msg);
         				
-        				 List<RoomAVList> list1=slotServicesImpl.getavailableroomList(LocationId, checkInTime, checkOutTime).stream().collect(Collectors.toList());;
-        			     dto.setRoomAVList(list1);
+        				 List<RoomAVList> list1=slotServicesImpl.getavailableroomList(LocationId, checkInTime, checkOutTime,quota,acStatus,bedType).stream().collect(Collectors.toList());;
+        				 if( list1.size()==0)
+             			 dto.setMsg("Room Not Availble");
+             			 else
+        				 dto.setRoomAVList(list1);
         				}else {msg=st3;
         				 dto.setMsg(msg);
         				}

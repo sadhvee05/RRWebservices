@@ -13,8 +13,10 @@ public class PnrResponse {
 	 
 	String sourceStation;
 	int   sourceStationCode;
+	List sourceStationlist;
     String destinationStation;
     int destinationStationCode;
+    List destinationStationlList;
 	String trainNumber;
 	String trainName;
 	String  hourlyOrSlot;
@@ -31,7 +33,20 @@ public class PnrResponse {
 	
 	
 	
-	
+
+	public void setDestinationStationlList(List destinationStationlList) {
+		this.destinationStationlList = destinationStationlList;
+	}
+	public List getSourceStationlist() {
+		return sourceStationlist;
+	}
+	public void setSourceStationlist(List sourceStationlist) {
+		this.sourceStationlist = sourceStationlist;
+	}
+	public List getDestinationStationlList() {
+		return destinationStationlList;
+	}
+
 	public int getSourceStationCode() {
 		return sourceStationCode;
 	}
@@ -108,15 +123,17 @@ public class PnrResponse {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public PnrResponse(String sourceStation, int sourceStationCode, String destinationStation,
-			int destinationStationCode, String trainNumber, String trainName, String hourlyOrSlot,
-			String trainCancelStatus, LocalDateTime dateOfJourney, LocalDateTime arrivalDate, int noOfPassengers,
-			List<GuestInfoDto> guestsInfo) {
+	public PnrResponse(String sourceStation, int sourceStationCode, List sourceStationlist, String destinationStation,
+			int destinationStationCode, List destinationStationlList, String trainNumber, String trainName,
+			String hourlyOrSlot, String trainCancelStatus, LocalDateTime dateOfJourney, LocalDateTime arrivalDate,
+			int noOfPassengers, List<GuestInfoDto> guestsInfo) {
 		super();
 		this.sourceStation = sourceStation;
 		this.sourceStationCode = sourceStationCode;
+		this.sourceStationlist = sourceStationlist;
 		this.destinationStation = destinationStation;
 		this.destinationStationCode = destinationStationCode;
+		this.destinationStationlList = destinationStationlList;
 		this.trainNumber = trainNumber;
 		this.trainName = trainName;
 		this.hourlyOrSlot = hourlyOrSlot;
@@ -126,6 +143,9 @@ public class PnrResponse {
 		this.noOfPassengers = noOfPassengers;
 		this.guestsInfo = guestsInfo;
 	}
+
+	
+
 	
 	
 }

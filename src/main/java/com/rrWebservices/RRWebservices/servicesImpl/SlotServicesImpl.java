@@ -112,7 +112,7 @@ public class SlotServicesImpl  implements SlotServices  {
 		 return list;
 	 }
 	 
-	 public  List<RoomAVList> getavailableroomList(int locationId,String checkInDateTime,String checkOutDateTime)
+	 public  List<RoomAVList> getavailableroomList(int locationId,String checkInDateTime,String checkOutDateTime,String quota,String acStatus,String bedType)
 	 {
 		  String checkingDate=checkInDateTime;
 		  String checkoutDate=checkOutDateTime;
@@ -123,8 +123,8 @@ public class SlotServicesImpl  implements SlotServices  {
 		 List<RoomAVList> list=new ArrayList<RoomAVList>();
 		// List<Object> objlist1= slotTarrifsRepo.getAvaRoomList(checkIndate,checkOutDate,checkIndate,checkOutDate,locationId);
 		 
-		 List<Object> objlist1= slotTarrifsRepo.getAvaRoomList(checkOutDate,checkIndate,checkOutDate,checkIndate,checkOutDate,checkIndate,locationId);
-		 
+		 List<Object> objlist1= slotTarrifsRepo.getAvaRoomList(checkOutDate,checkIndate,checkOutDate,checkIndate,checkOutDate,checkIndate,locationId,quota,acStatus,bedType);
+		 System.out.println(" room size n*********  "+objlist1.size());
 		 for (Object itr : objlist1) {
 			 Object[] obj = (Object[]) itr;
 			 RoomAVList dto=new RoomAVList();
@@ -502,12 +502,6 @@ public class SlotServicesImpl  implements SlotServices  {
 
 */
 
-	@Override
-	public List<AvailableRoomListWithTariff> avlRoomList(int locationId, String checkInDateTime,
-			String checkOutDateTime) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	 

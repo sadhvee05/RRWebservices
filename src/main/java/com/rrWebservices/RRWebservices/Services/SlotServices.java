@@ -13,9 +13,10 @@ public interface SlotServices {
 	 List<SlotList> getAllslot();
 	 List<RoomList> allroomList();
 	
-	 List<RoomAVList> getavailableroomList(int locationId,String checkInDateTime,String checkOutDateTime);
+	 //List<RoomAVList> getavailableroomList(int locationId,String checkInDateTime,String checkOutDateTime);
+	 List<RoomAVList> getavailableroomList(int locationId,String checkInDateTime,String checkOutDateTime,String quota,String acStatus,String bedType);
 		
-	 List<AvailableRoomListWithTariff> avlRoomList(int locationId,String checkInDateTime,String checkOutDateTime);
+	// List<AvailableRoomListWithTariff> avlRoomList(int locationId,String checkInDateTime,String checkOutDateTime);
 	// 
 	 //locationId,checkInDateTime,checkOutDateTime
 	 List<LocationSlotMStDTO> getLocationWiseSlotId(int locationId,String checkInDateTime,String checkOutDateTime);

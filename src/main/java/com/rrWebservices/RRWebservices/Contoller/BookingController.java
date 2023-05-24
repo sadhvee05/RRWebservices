@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController 
-@RequestMapping("/rr/Webservices/")
+@RequestMapping("/rr/Webservices")
 public class BookingController {
 
 	@Autowired
@@ -54,16 +54,27 @@ public class BookingController {
 		@PostMapping(value="/roomAvailabilityCheck", produces = "application/json")
 	   	public   ResponseEntity<?> getbookingSearch(@Valid @RequestBody RoomAvailabilityCheckRequest roomAvlCheckReq)
 	   	{
+			try {
+				if(!roomAvlCheckReq.equals(null));
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please Enter valid data");
+			}
+		
 			RoomAVLCheckList  obj=bookingServices.getRoomAvailabilityCheck(roomAvlCheckReq.getStationCode(),
 					  roomAvlCheckReq.getCheckInTime(),roomAvlCheckReq.getCheckOutTime(),roomAvlCheckReq.getBookingType(),
-					  roomAvlCheckReq.getTravelAutho(),roomAvlCheckReq.getTravelAuthoId());
+					  roomAvlCheckReq.getTravelAutho(),roomAvlCheckReq.getTravelAuthoId(),
+					  roomAvlCheckReq.getAcstatus(),roomAvlCheckReq.getBedtype(),roomAvlCheckReq.getQuota()  );
 			if( null==obj.getRoomAVList() ) {
 				errorMsg.setMsg(obj.getMsg());
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
 			}
 			else
 			return ResponseEntity.status(HttpStatus.OK).body(obj);
-		 	}
+		 	
+	   	}
 		
 	 
 }

@@ -4,6 +4,28 @@ public class SlotRequestDto {
 	private int locationId;
 	private String checkInDateTime;
 	private String checkOutDateTime;
+	private String quota;
+	private String acstatus;
+	private String bedtype;
+	
+	public String getQuota() {
+		return quota;
+	}
+	public void setQuota(String quota) {
+		this.quota = quota;
+	}
+	public String getAcstatus() {
+		return acstatus;
+	}
+	public void setAcstatus(String acstatus) {
+		this.acstatus = acstatus;
+	}
+	public String getBedtype() {
+		return bedtype;
+	}
+	public void setBedtype(String bedtype) {
+		this.bedtype = bedtype;
+	}
 	public int getLocationId() {
 		return locationId;
 	}
