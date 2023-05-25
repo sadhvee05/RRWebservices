@@ -1,7 +1,5 @@
 package com.rrWebservices.RRWebservices.Dto;
 
-import java.time.LocalDateTime;
-
 public class LoginRequestModel {
     private String username;
     private Long roleId;

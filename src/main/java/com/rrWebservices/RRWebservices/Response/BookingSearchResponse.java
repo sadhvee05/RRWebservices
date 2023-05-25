@@ -1,7 +1,5 @@
 package com.rrWebservices.RRWebservices.Response;
 
-import java.time.LocalDateTime;
-
 public class BookingSearchResponse {
 	
 	 private Long id;

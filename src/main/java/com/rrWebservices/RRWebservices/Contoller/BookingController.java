@@ -1,10 +1,8 @@
 package com.rrWebservices.RRWebservices.Contoller;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rrWebservices.RRWebservices.Dto.ErrorMsg;
 import com.rrWebservices.RRWebservices.Dto.RoomAVLCheckList;
-import com.rrWebservices.RRWebservices.Dto.RoomAVList;
 import com.rrWebservices.RRWebservices.Request.RoomAvailabilityCheckRequest;
 import com.rrWebservices.RRWebservices.Response.BookingSearchResponse;
 import com.rrWebservices.RRWebservices.Services.BookingServices;
@@ -54,14 +50,6 @@ public class BookingController {
 		@PostMapping(value="/roomAvailabilityCheck", produces = "application/json")
 	   	public   ResponseEntity<?> getbookingSearch(@Valid @RequestBody RoomAvailabilityCheckRequest roomAvlCheckReq)
 	   	{
-			try {
-				if(!roomAvlCheckReq.equals(null));
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Please Enter valid data");
-			}
 		
 			RoomAVLCheckList  obj=bookingServices.getRoomAvailabilityCheck(roomAvlCheckReq.getStationCode(),
 					  roomAvlCheckReq.getCheckInTime(),roomAvlCheckReq.getCheckOutTime(),roomAvlCheckReq.getBookingType(),

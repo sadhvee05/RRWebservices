@@ -1,7 +1,5 @@
 package com.rrWebservices.RRWebservices.Dto;
 
-import java.util.List;
-
 public class RoomAVList {
 	
 	private String roomNo;

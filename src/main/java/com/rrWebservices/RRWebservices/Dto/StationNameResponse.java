@@ -1,8 +1,5 @@
 package com.rrWebservices.RRWebservices.Dto;
 
-import java.util.List;
-import java.util.stream.Collector;
-
 public class StationNameResponse {
 	private int id;
 	private String locationCode;

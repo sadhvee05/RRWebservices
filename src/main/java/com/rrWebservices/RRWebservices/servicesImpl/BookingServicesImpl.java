@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.Spring;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.rrWebservices.RRWebservices.Dto.LocationSlotMStDTO;
 import com.rrWebservices.RRWebservices.Dto.ResponseMsgDto;
 import com.rrWebservices.RRWebservices.Dto.RoomAVLCheckList;
 import com.rrWebservices.RRWebservices.Dto.RoomAVList;
-import com.rrWebservices.RRWebservices.Exception.ResourceNotFoundCustomException;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomBookingReservationRepo;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomLocationMasterRepo;
-import com.rrWebservices.RRWebservices.Request.RoomAvailabilityCheckRequest;
 import com.rrWebservices.RRWebservices.Response.BookingSearchResponse;
 import com.rrWebservices.RRWebservices.Services.BookingServices;
 import com.rrWebservices.RRWebservices.Validation.RoomAvailabilityValidation;
@@ -66,16 +60,16 @@ public class BookingServicesImpl implements BookingServices {
 				// dto.setRoomBookingId1(String.valueOf(obj[12]));
 				dto.setRoomId(Long.valueOf(String.valueOf(obj[13])));
 				dto.setDateTimeReserveFrom(String.valueOf(obj[14]));// 14 private LocalDateTime createdTs;
-				System.out.println(" String.valueOf(obj[14]) " + String.valueOf(obj[14]));
+				//System.out.println(" String.valueOf(obj[14]) " + String.valueOf(obj[14]));
 				dto.setDateTimeReserveTo(String.valueOf(obj[15]));// 15
-				System.out.println(" String.valueOf(obj[15]) " + String.valueOf(obj[15]));
+				//System.out.println(" String.valueOf(obj[15]) " + String.valueOf(obj[15]));
 				dto.setCheckinDateTime(String.valueOf(obj[16]));// 16
-				System.out.println(" String.valueOf(obj[16]) " + String.valueOf(obj[16]));
+				//System.out.println(" String.valueOf(obj[16]) " + String.valueOf(obj[16]));
 				dto.setTxnType(String.valueOf(obj[17]));
-				System.out.println(" String.valueOf(obj[17]) " + String.valueOf(obj[17]));
+				//System.out.println(" String.valueOf(obj[17]) " + String.valueOf(obj[17]));
 				dto.setTransactionDate(String.valueOf(obj[18]));// 18
-				System.out.println("llllllllll");
-				System.out.println("String.valueOf(obj[19])" + String.valueOf(obj[19]));
+				
+			//	System.out.println("String.valueOf(obj[19])" + String.valueOf(obj[19]));
 				dto.setTarriffCharge(Double.valueOf(String.valueOf(obj[19])));
 				dto.setRefundAmount(Double.valueOf(String.valueOf(obj[20])));
 				dto.setTotalGstAmnt(Double.valueOf(String.valueOf(obj[21])));
@@ -154,7 +148,7 @@ public class BookingServicesImpl implements BookingServices {
         				if(pnrValidation.equals("valid"))
         				{
         				 msg="Welcome with pnr";
-        				 dto.setMsg(msg);
+        				dto.setMsg(msg);
         				 List<RoomAVList> list1=slotServicesImpl.getavailableroomList(LocationId, checkInTime, checkOutTime,quota,acStatus,bedType).stream().collect(Collectors.toList());
         				 
         				if( list1.size()==0)
@@ -228,5 +222,8 @@ public class BookingServicesImpl implements BookingServices {
         return dto;
 		
 	}
+	
+	
+	
 
 }

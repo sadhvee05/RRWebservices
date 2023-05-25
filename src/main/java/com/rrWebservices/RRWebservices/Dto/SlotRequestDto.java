@@ -7,7 +7,16 @@ public class SlotRequestDto {
 	private String quota;
 	private String acstatus;
 	private String bedtype;
+	private int hourlyOrSlot;
 	
+	
+	
+	public int getHourlyOrSlot() {
+		return hourlyOrSlot;
+	}
+	public void setHourlyOrSlot(int hourlyOrSlot) {
+		this.hourlyOrSlot = hourlyOrSlot;
+	}
 	public String getQuota() {
 		return quota;
 	}

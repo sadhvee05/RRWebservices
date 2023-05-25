@@ -51,8 +51,7 @@ public class RoomAvailabilityValidation {
 		{
 			str.replaceAll("\\s", "");
 			msg= "valid";
-		
-		 if(strnull==objetList.getTrainCancelStatus()) // 2condition: train not cancelled	
+		if(strnull==objetList.getTrainCancelStatus()) // 2condition: train not cancelled	
 		{
 			if(!objetList.getGuestsInfo().get(0).getStatus().equals("WL") || 
 					!objetList.getGuestsInfo().get(0).getStatus().equals("RLWL"))// 3condition: PNR is not in wait List. 
@@ -86,13 +85,11 @@ public class RoomAvailabilityValidation {
 		else
 		{
 		 msg=objetList.getTrainCancelStatus();	
-		 
 		}
 		}
 		else
 		{   
 		  msg="Please Enter Only Numeric Value and not more than 18 digit: "+pnr;
-			
 		}
 		}
 		catch(Exception e)

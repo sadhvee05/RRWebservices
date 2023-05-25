@@ -37,7 +37,7 @@ public class MainControler {
 	 private ErrorMsg errorMsg;
 	 @Autowired
 	  private LocationServices  locationServices;
-	 @GetMapping("/hellow")
+	 @GetMapping("/hello")
      public String msg(){
 	  	return  "hi web service";
 	  }

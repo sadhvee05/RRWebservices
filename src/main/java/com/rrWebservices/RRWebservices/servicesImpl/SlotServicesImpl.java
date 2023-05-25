@@ -1,7 +1,5 @@
 package com.rrWebservices.RRWebservices.servicesImpl;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -19,12 +17,12 @@ import com.rrWebservices.RRWebservices.Dto.RoomAmenitiesDto;
 import com.rrWebservices.RRWebservices.Dto.RoomList;
 import com.rrWebservices.RRWebservices.Dto.SlotList;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomSlotTarrifsRepo;
-import com.rrWebservices.RRWebservices.Response.RoomAvailabilityListResponse;
 import com.rrWebservices.RRWebservices.Services.SlotServices;
 import com.rrWebservices.RRWebservices.Validation.RoomAvailabilityValidation;
 @Service
 public class SlotServicesImpl  implements SlotServices  {
 	 DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	 DateTimeFormatter DATEFORMATTERWithoutTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	 DateTimeFormatter TIMEFORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	 SimpleDateFormat obj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	@Autowired 
@@ -90,9 +88,9 @@ public class SlotServicesImpl  implements SlotServices  {
 	 
 	 public List<RoomList> allroomList()
 	 {
-		 List<RoomAVList> list1=new ArrayList<RoomAVList>();
-		 List<RoomAVList> list11=new ArrayList<RoomAVList>();
-		 List<AvailableRoomListWithTariff> list2=new  ArrayList<AvailableRoomListWithTariff>();
+		// List<RoomAVList> list1=new ArrayList<RoomAVList>();
+		// List<RoomAVList> list11=new ArrayList<RoomAVList>();
+		// List<AvailableRoomListWithTariff> list2=new  ArrayList<AvailableRoomListWithTariff>();
 		 int locationId=1064;
 		 
 		 List<RoomList> list=new ArrayList<RoomList>();
@@ -141,7 +139,9 @@ public class SlotServicesImpl  implements SlotServices  {
                     dto.setQuota(String.valueOf(obj[8]));
                     dto.setRoomStatus(String.valueOf(obj[9]));
                     int roomId=dto.getRoomId();
-                    
+                    String roomStatus= String.valueOf(obj[9]);
+                    if(roomStatus=="A"|| roomStatus.equals("A"))
+                    {
                     List<AvailableRoomListWithTariff> list1= getTarrif( locationId,roomId,checkInDateTime, checkOutDateTime);
                     for(AvailableRoomListWithTariff data:list1)
                     {
@@ -156,7 +156,7 @@ public class SlotServicesImpl  implements SlotServices  {
                     	//dto.setCheckinTime1(checkInDateTime);
                     	dto.setMsg(data.getMsg());
                     }
-                    
+                    }
                     
                        //dto.setTarrifDetails(getTarrif( locationId,roomId,checkInDateTime, checkOutDateTime));
                     
@@ -353,8 +353,7 @@ public class SlotServicesImpl  implements SlotServices  {
 						 tarrifdto1.setLocationId(locationId);
 						
 						 trarriflist.add(tarrifdto1); 
-						 System.out.println(" totalTarrif "+totalTarrif+"----"+baseTarrif1+" extra 0.25% "+baseTarrif1*0.25+ " baseTarrif2 "+baseTarrif2);
-							
+						 	
 		    }
 		    else if(hours_difference<=48 && hours_difference>36)
 		    {
@@ -420,13 +419,71 @@ public class SlotServicesImpl  implements SlotServices  {
 	 
 	 public String getSlotTrarrif()
 	 {
-		 
-		 
-		 
 		return null;
+		}
+	 
+	 
+	 public  List<RoomAVList> getroomAvailabilitySearch(int locationId,String checkInDateTime,String checkOutDateTime,int hourlyOrSlot)
+	 {
 		 
+		  String checkingDate=checkInDateTime;
+		  String checkoutDate=checkOutDateTime;
 		 
+		  LocalDateTime  checkIndate = LocalDateTime.parse(checkingDate, DATEFORMATTER);		 
+		  LocalDateTime  checkOutDate = LocalDateTime.parse(checkoutDate, DATEFORMATTER);
+		
+		List<RoomAVList> list=new ArrayList<RoomAVList>();
+		if(hourlyOrSlot==0) {
+		List<Object> objlist1= slotTarrifsRepo.getAvaRoomListSearch(checkOutDate,checkIndate,checkOutDate,checkIndate,checkOutDate,checkIndate,locationId);
+		 System.out.println(" room size in roomAvailabilitySearch *********  "+objlist1.size());
+		 for (Object itr : objlist1) {
+			 Object[] obj = (Object[]) itr;
+			 RoomAVList dto=new RoomAVList();
+			 if(!objlist1.isEmpty()) {
+				 String roomstatus = String.valueOf(obj[9]);
+				 dto.setRoomId(Integer.valueOf(String.valueOf(obj[0])));
+				  dto.setRoomNo(String.valueOf(obj[1]));
+				  dto.setAmenities(String.valueOf(obj[2]));
+				  dto.setFloorType(String.valueOf(obj[3]));
+				  dto.setRoomType(String.valueOf(obj[4]));
+				  dto.setBedType(String.valueOf(obj[5]));
+				   	//dto.setTraiff(Double.valueOf(String.valueOf(obj[5])));
+                    dto.setAcStatus(String.valueOf(obj[7]));
+                    dto.setQuota(String.valueOf(obj[8]));
+                    dto.setRoomStatus(String.valueOf(obj[9]));
+                    int roomId=dto.getRoomId();
+                    if(roomstatus.equals("A")||roomstatus=="A")
+                    { List<AvailableRoomListWithTariff> list1= getTarrif( locationId,roomId,checkInDateTime, checkOutDateTime);
+                    for(AvailableRoomListWithTariff data:list1)
+                    {
+                    	dto.setBasetarrif(data.getBaseTarrif());
+                    	dto.setTotaltarrif(data.getTotalTarrif());
+                    	dto.setExtrabedcharge(data.getExtraBedCharge());
+                    	dto.setCheckingSlot(data.getCheckinTime());
+                    	dto.setCheckinTime(checkInDateTime);
+                    	dto.setCheckoutSlot(data.getCheckOutTime());
+                    	dto.setCheckoutTime(checkOutDateTime);
+                    	dto.setDuration(validations.checkingAndCheckoutTimeduration(checkInDateTime,checkOutDateTime));
+                    	//dto.setCheckinTime1(checkInDateTime);
+                    	dto.setMsg(data.getMsg());
+                    }
+                    }
+                       //dto.setTarrifDetails(getTarrif( locationId,roomId,checkInDateTime, checkOutDateTime));
+            }   list.add(dto);
+	     }
+		 }
+		else
+		{
+			 RoomAVList dto=new RoomAVList();
+			 dto.setMsg("hourly Room Availability Search");
+			 list.add(dto);
+		}
+		System.out.println(list.size()+" 2nd list");
+		 return list;
 	 }
+	 
+	 
+	 
  /* public List<AvailableRoomListWithTariff> avlRoomList(int locationId,String checkInDateTime,String checkOutDateTime){
 	      String checkingDate=checkInDateTime;
 		  String checkoutDate=checkOutDateTime;

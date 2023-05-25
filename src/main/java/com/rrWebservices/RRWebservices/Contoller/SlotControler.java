@@ -9,18 +9,16 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rrWebservices.RRWebservices.Dto.AvailableRoomListWithTariff;
+import com.rrWebservices.RRWebservices.Dto.ErrorMsg;
 import com.rrWebservices.RRWebservices.Dto.LocationSlotMStDTO;
-import com.rrWebservices.RRWebservices.Dto.PnrResponse;
 import com.rrWebservices.RRWebservices.Dto.RoomAVList;
 import com.rrWebservices.RRWebservices.Dto.RoomAmenitiesDto;
 import com.rrWebservices.RRWebservices.Dto.RoomList;
 import com.rrWebservices.RRWebservices.Dto.SlotList;
 import com.rrWebservices.RRWebservices.Dto.SlotRequestDto;
-import com.rrWebservices.RRWebservices.Response.RoomAvailabilityListResponse;
 import com.rrWebservices.RRWebservices.Services.SlotServices;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -30,7 +28,8 @@ public class SlotControler {
 
 	 @Autowired
 	 private  SlotServices slotServices;	
-	 
+	 @Autowired
+	 private ErrorMsg errorMsg;
 	 @GetMapping("/slotList") 
 		public ResponseEntity<List<SlotList> > getslotList()
 		{
@@ -52,7 +51,21 @@ public class SlotControler {
 							));
 		}
 
-
+	 @GetMapping("/roomAvailabilitySearch") 
+		public ResponseEntity<?> getroomAvailabilitySearch(@RequestBody SlotRequestDto slotRequestDto)
+		{
+		  
+		 List<RoomAVList> list =slotServices.getroomAvailabilitySearch(slotRequestDto.getLocationId(), slotRequestDto.getCheckInDateTime(),slotRequestDto.getCheckOutDateTime()
+							,slotRequestDto.getHourlyOrSlot());
+		if( list.get(0).getMsg()=="" || list.get(0).getMsg().equals(null) )
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(list);
+		}
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(errorMsg.setMsg(list.get(0).getMsg()));	
+		}
+	 
+	 
 		/*
 		 * @GetMapping("/AvlRoomList") // no need public
 		 * ResponseEntity<List<AvailableRoomListWithTariff>> AvlRoomList(@RequestBody

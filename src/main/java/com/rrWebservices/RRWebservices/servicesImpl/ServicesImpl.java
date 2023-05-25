@@ -68,7 +68,8 @@ public class ServicesImpl implements Services {
 				 dto.setHourlyOrSlot(itr.getBookingType());
 				}
 			    else {
-			   	// dto.setMsg("Data Not Found");
+
+                //dto.setMsg("Data Not Found");
 			    }
 			 list.add(dto);
 		 }
@@ -77,7 +78,7 @@ public class ServicesImpl implements Services {
 	
 	public String getSationExistOrNot(int locationId)
 	 {
-	    List<CheckInCheckOutTimeResponse> list=new  ArrayList<CheckInCheckOutTimeResponse>();
+	   // List<CheckInCheckOutTimeResponse> list=new  ArrayList<CheckInCheckOutTimeResponse>();
 	    String msg="";
 	   
 		int location =rrBookingReservationRepo.getLocation(locationId);
