@@ -29,6 +29,7 @@ public class SlotServicesImpl  implements SlotServices  {
 	 private RetiringroomSlotTarrifsRepo slotTarrifsRepo;
 	@Autowired 
 	private RoomAvailabilityValidation validations;
+
 	
 	 public List<SlotList> getAllslot() {
 		 List<SlotList> list=new ArrayList<SlotList>();

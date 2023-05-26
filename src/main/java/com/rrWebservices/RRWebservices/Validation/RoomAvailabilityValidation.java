@@ -4,19 +4,27 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rrWebservices.RRWebservices.Dto.PnrResponse;
+import com.rrWebservices.RRWebservices.Dto.RoomAVList;
+import com.rrWebservices.RRWebservices.Entity.RetiringroomRoommaster;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomBookingReservationRepo;
+import com.rrWebservices.RRWebservices.Repository.RetiringroomRoommasterRepo;
 import com.rrWebservices.RRWebservices.servicesImpl.ServicesImpl;
 @Service
 public class RoomAvailabilityValidation {
 	DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	@Autowired
 	ServicesImpl servicesImpl;
+	@Autowired
+	RetiringroomRoommasterRepo roomRoommasterRepo;
 	@Autowired 
 	private RetiringroomBookingReservationRepo rbrRepo;
 	 SimpleDateFormat obj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -248,49 +256,6 @@ public class RoomAvailabilityValidation {
 
 		}
 		
-		public String bedroomAvailability()
-		{
-         int noOfGuests=0;
-         int roomId;
-         int singleBed = 0, doubleBed = 0, dormitory = 0, familyBed = 0;
-         int countselection=0;
-         String msg="";
-         if(countselection>0)
-    	 {
-         if(noOfGuests==1)
-         {
-        	//if(roomId)
-        		 singleBed=singleBed+1;
-        		 dormitory=dormitory+1;
-        		 doubleBed=doubleBed+1;
-        		 
-        	
-        	  msg="Can be allotted 1 Dormitory or 1 Double Room or 1 Single Room";
-          }
-          else if(noOfGuests==2)
-          {
-        	 msg="Can be allotted one DB Room or 2 bed in dormitory";
-          }
-          else if(noOfGuests==3)
-          {
-        	  msg="Can be allotted One DB+One SB Room or 3 bed in dormitory or 1 Family Room";
-          }
-          else if(noOfGuests==4)
-          {
-        	 msg="Two DB Rooms or up to " + noOfGuests+ " beds in dormitory or 1 Family room subject to availability" ;
-          }
-          else if(noOfGuests==5 || noOfGuests==6)
-          {
-        	  msg="Two DB Rooms or up to " + noOfGuests+ " beds in dormitory subject to availability";
-          }
-         
-    	 }
-    	 else
-    	 {
-    		   msg="Please select the room!....";
-    	 }
-			return msg;
-		}
 		
 		
 	

@@ -20,6 +20,8 @@ public class RetiringroomRoommaster {
 	  private String stationname;
 	 @Column(name = "room_number")
 	  private String roomnumber;
+	 @Column(name = "bed_Type")
+	  private String bedType;
 	public int getId() {
 		return id;
 	}
@@ -43,6 +45,12 @@ public class RetiringroomRoommaster {
 	}
 	public void setRoomnumber(String roomnumber) {
 		this.roomnumber = roomnumber;
+	}
+	public String getBedType() {
+		return bedType;
+	}
+	public void setBedType(String bedType) {
+		this.bedType = bedType;
 	}
 	 
 	 

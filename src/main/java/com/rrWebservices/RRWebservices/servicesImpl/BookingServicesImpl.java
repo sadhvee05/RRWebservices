@@ -14,6 +14,7 @@ import com.rrWebservices.RRWebservices.Repository.RetiringroomBookingReservation
 import com.rrWebservices.RRWebservices.Repository.RetiringroomLocationMasterRepo;
 import com.rrWebservices.RRWebservices.Response.BookingSearchResponse;
 import com.rrWebservices.RRWebservices.Services.BookingServices;
+import com.rrWebservices.RRWebservices.Validation.BedCheckingValidation;
 import com.rrWebservices.RRWebservices.Validation.RoomAvailabilityValidation;
 
 @Service
@@ -29,7 +30,8 @@ public class BookingServicesImpl implements BookingServices {
 	private SlotServicesImpl slotServicesImpl;
 	 @Autowired 
 	 private RetiringroomLocationMasterRepo rrLocationMasterRepo;
-
+		@Autowired 
+		private BedCheckingValidation bedCheckingValidation;
 	ResponseMsgDto dtoResponsemsg = new ResponseMsgDto();
 
 	@Override
@@ -114,6 +116,7 @@ public class BookingServicesImpl implements BookingServices {
 	// List<RoomAVList>
 	public  RoomAVLCheckList getRoomAvailabilityCheck(int stationCode, String checkInTime,String checkOutTime,String bookingType,String travelAuthref,String travelAuthoId,
 			String acStatus, String bedType, String quota) {
+		
 		   RoomAVLCheckList dto=new RoomAVLCheckList();
 		   List<RoomAVLCheckList> list=new ArrayList<RoomAVLCheckList>();
 		   String msg="";

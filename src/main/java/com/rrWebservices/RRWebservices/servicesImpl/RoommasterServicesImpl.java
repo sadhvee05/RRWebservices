@@ -28,6 +28,8 @@ public class RoommasterServicesImpl  implements RommMasterServices{
 	@Override 
 	public List<RetiringroomMaintenanceInfo> getRoommMaintenanceInfo(int roomId){
 		List<RetiringroomMaintenanceInfo> roomMaintenaccelist=roomMaintenanceInfoRepo.findByroomid(roomId);
+	    
+		
 		System.out.println("room size in RetiringroomMaintenanceInfo :: "+roomMaintenaccelist.size());
 		return roomMaintenaccelist;
 	}
