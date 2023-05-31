@@ -18,7 +18,8 @@ public interface RetiringroomLocationMasterRepo extends JpaRepository<Retiringro
 	public List<Object> getStationName();
 
 	
-	
+	@Query(value = "SELECT id,`location_code`,`effective_date`,`termination_date` FROM `retiringroom_location_master`", nativeQuery = true)
+	public List<Object> getlocation();
 
 }
 

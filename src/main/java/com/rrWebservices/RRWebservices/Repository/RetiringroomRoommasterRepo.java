@@ -9,8 +9,8 @@ import com.rrWebservices.RRWebservices.Entity.RetiringroomRoommaster;
 
 @Repository 
 public interface RetiringroomRoommasterRepo extends JpaRepository<RetiringroomRoommaster,Integer>{
-	public List< RetiringroomRoommaster> findByLocationid(int locationId) ;
+	public List< RetiringroomRoommaster> findByLocationid(int id) ;
 	
 	@Query(value = " SELECT * FROM `retiringroom_roommaster` WHERE id=? ", nativeQuery = true)
-	public List< Object> getRoom(int  roomid);
+	public List< RetiringroomRoommaster> getRoom(int  roomid);
 }

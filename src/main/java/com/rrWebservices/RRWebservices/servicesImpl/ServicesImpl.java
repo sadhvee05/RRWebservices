@@ -54,12 +54,17 @@ public class ServicesImpl implements Services {
 	@Autowired 
 	 ErrorMsg errorMsg;
 	ResponseMsgDto dtoResponsemsg=new ResponseMsgDto();
-	
+	@Autowired 
+	private RetiringroomBookingReservationRepo rbrRepo;
 	@Override 
 	 public List<RoomTypeResponse> getStaionModeHourlyOrSlot(int staionId)
 	 {
+		// convert from stationId To locationId
+		  List<Object> StationId =rbrRepo.checkStationId(staionId);// statincode convert into locationId
+		  int locationId=(int) StationId.get(0);
+		
 	    List<RoomTypeResponse> list=new  ArrayList<RoomTypeResponse>();
-	    List<RetiringroomLocationMaster> objetList=rrLocationMasterRepo.findById(staionId);
+	    List<RetiringroomLocationMaster> objetList=rrLocationMasterRepo.findById(locationId);
 		System.out.println(objetList.size());
 		 for (RetiringroomLocationMaster itr : objetList) {
 			  RoomTypeResponse dto=new RoomTypeResponse();
@@ -125,8 +130,11 @@ public class ServicesImpl implements Services {
 	 }
 	
 	@Override 
-	 public List<CheckInCheckOutTimeResponse> getCheckInCheckOut(int locationId)
+	 public List<CheckInCheckOutTimeResponse> getCheckInCheckOut(int staionId)
 	 {
+		List<Object> StationId =rbrRepo.checkStationId(staionId);// statincode convert into locationId
+		int locationId=(int) StationId.get(0);
+		  
 	    List<CheckInCheckOutTimeResponse> list=new  ArrayList<CheckInCheckOutTimeResponse>();
 		List<Object> objectList =rrBookingReservationRepo.getCheckInCheckOut(locationId);
 		System.out.println(list.size());

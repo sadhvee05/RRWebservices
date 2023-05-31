@@ -62,10 +62,10 @@ public class MainControler {
     	
 	}
     
-    @GetMapping(value="/getCheckInCheckOut/{locationId}", produces = "application/json")
-	public ResponseEntity<List<CheckInCheckOutTimeResponse>>  getCheckInCheckOut(@PathVariable int locationId)
+    @GetMapping(value="/getCheckInCheckOut/{staionId}", produces = "application/json")
+	public ResponseEntity<List<CheckInCheckOutTimeResponse>>  getCheckInCheckOut(@PathVariable int staionId)
 	{
-		return ResponseEntity.status(HttpStatus.OK).body(service.getCheckInCheckOut(locationId));
+		return ResponseEntity.status(HttpStatus.OK).body(service.getCheckInCheckOut(staionId));
 	}
    
     @GetMapping(value="/getPnrEnquiry/{pnr}", produces = "application/json")

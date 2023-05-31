@@ -194,6 +194,7 @@ public class LoginController {
     				if(mstaccounts.getRoleId()!= 25) {
     					if(ipAddress.equals(displayMaster.getTerminalIp())) {
     	    				loginRequestModel.setUsername(username);
+    	    				loginRequestModel.setUserId(mstaccounts.getAccntId());
     	    				loginRequestModel.setCreatedOn(mstaccounts.getCreatedOn());
     	    				loginRequestModel.setRoleId(mstaccounts.getRoleId());
     	    				loginRequestModel.setToken(token);
@@ -209,7 +210,8 @@ public class LoginController {
 	    				loginRequestModel.setUsername(username);
 	    				loginRequestModel.setCreatedOn(mstaccounts.getCreatedOn());
 	    				loginRequestModel.setRoleId(mstaccounts.getRoleId());
-	    				loginRequestModel.setToken(token);
+	    				loginRequestModel.setUserId(mstaccounts.getAccntId());
+	    			    System.out.println("username && UserId :: "+username+" ::  "+mstaccounts.getAccntId());
 	    				return new ResponseEntity<LoginRequestModel>(loginRequestModel, HttpStatus.OK);
     				}
     		        

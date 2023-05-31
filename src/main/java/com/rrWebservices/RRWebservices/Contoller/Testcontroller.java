@@ -31,7 +31,22 @@ public class Testcontroller {
 		@GetMapping(value="/bedcheckingvalidation", produces = "application/json")
 	   	public ResponseEntity<?>  bookingSearch(@RequestBody BedCheckingValidationRequest bedValidationRequest)
 	   	{
-			List<BedCheckingValidationResponse> msg =   testServices.bedroomAvailability(bedValidationRequest.getNoOfGuests(),bedValidationRequest.getRoomId());
+			List<BedCheckingValidationResponse>  msg =   testServices.bedroomAvailability(bedValidationRequest.getNoOfGuests(),bedValidationRequest.getRoomId());
+			if(msg==null)
+			{
+				errorMsg.setMsg("error msg");
+			   return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);	
+			}
+			else
+				 return ResponseEntity.status(HttpStatus.OK).body(msg);	
+			
+	   	}
+		
+		
+		@GetMapping(value="/bedroomAvailabilityProposedInfuture", produces = "application/json")
+	   	public ResponseEntity<?>  bedroomAvailabilityProposedInfuture(@RequestBody BedCheckingValidationRequest bedValidationRequest)
+	   	{
+			List<BedCheckingValidationResponse>  msg =   testServices.bedroomAvailabilityProposedInfuture(bedValidationRequest.getNoOfGuests(),bedValidationRequest.getRoomId());
 			if(msg==null)
 			{
 				errorMsg.setMsg("error msg");

@@ -81,6 +81,9 @@ import com.rrWebservices.RRWebservices.Entity.RetiringroomBookingReservationEnti
 	  		+ "ON m.STN_CD = r.location_code\r\n"
 	  		+ "WHERE m.STN_ID = ? ", nativeQuery = true)
 	   public List<Object> checkStationId(int stationId);
+	  
+	  
+	  
 	
 	 @Query(value = "SELECT\r\n"
 	 		+ "    CASE\r\n"

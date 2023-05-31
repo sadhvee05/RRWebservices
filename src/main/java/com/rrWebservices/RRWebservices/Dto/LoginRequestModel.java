@@ -2,6 +2,7 @@ package com.rrWebservices.RRWebservices.Dto;
 
 public class LoginRequestModel {
     private String username;
+    private long userId;
     private Long roleId;
     private String createdOn;
     private String token;
@@ -10,8 +11,17 @@ public class LoginRequestModel {
     // constructors, getters, and setters
 
 
+	
 	public String getUsername() {
 		return username;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public void setUsername(String username) {

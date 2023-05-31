@@ -12,7 +12,7 @@ public interface Services {
 	
 	List<RoomTypeResponse> getStaionModeHourlyOrSlot(int staionId);
 	List<PrincipalStationResponce> getprincipalStation(String stationCD);
-	List<CheckInCheckOutTimeResponse> getCheckInCheckOut(int locationId);
+	List<CheckInCheckOutTimeResponse> getCheckInCheckOut(int staionId);
 	
 	PnrResponse getPnrenquery1(String pnrNo);
 	

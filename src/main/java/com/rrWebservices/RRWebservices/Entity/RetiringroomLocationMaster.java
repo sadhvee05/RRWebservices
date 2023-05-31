@@ -18,7 +18,7 @@ public class RetiringroomLocationMaster {
 	  @Column(name = "hourly_booking_yn")
 	  private String  bookingType;
 	public int getId() {
-		return id;
+		return id; 
 	}
 	public void setId(int id) {
 		this.id = id;

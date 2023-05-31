@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.rrWebservices.RRWebservices.Dto.StationNameResponse;
 import com.rrWebservices.RRWebservices.Repository.RetiringroomLocationMasterRepo;
+import com.rrWebservices.RRWebservices.Response.LocationMasterResponse;
 import com.rrWebservices.RRWebservices.Services.LocationServices;
 @Service
 
@@ -35,7 +36,31 @@ public class LocationServicesImpl  implements LocationServices{
 		return list;
     }
 	 
-	
+	 public List<LocationMasterResponse> getlocation()
+		{
+			
+			List<LocationMasterResponse> list= new ArrayList<LocationMasterResponse>();
+			List<Object> objetList=   rrLocationMasterRepo.getlocation();
+			if (!objetList.isEmpty() && objetList.size() > 0)
+			{
+				for (Object itr : objetList) {
+					Object[] obj = (Object[]) itr;
+					LocationMasterResponse dto = new LocationMasterResponse();
+					dto.setId(Integer.valueOf(String.valueOf(obj[0])));
+					dto.setLocationCode(String.valueOf(obj[1]));
+					dto.setEffectiveDate(String.valueOf(obj[2]));
+					dto.setTerminationDate(String.valueOf(obj[3]));
+					list.add(dto);
+		         }
+			}
+			else
+			{
+				LocationMasterResponse dto = new LocationMasterResponse();
+				dto.setErrormsg("Location Not Found");
+			}
+			return list;
+	    }
+		 
 	 
 	 
 }
